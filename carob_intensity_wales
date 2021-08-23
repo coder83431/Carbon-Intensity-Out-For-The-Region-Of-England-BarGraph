@@ -1,0 +1,39 @@
+import pygal
+import requests
+import pprint
+import numpy as np
+
+
+filename = ("https://api.carbonintensity.org.uk/regional/wales")
+r = requests.get(filename)
+print("Status Code:", r.status_code)
+
+#Store API responce in a variable
+responce_dict = r.json()
+
+# get data
+datas = responce_dict["data"][0]["data"][0]["generationmix"]
+
+
+# print data
+pprint.pprint(datas)
+
+for data in datas:
+    print(data["perc"])
+
+for data in datas:
+    print(data["fuel"])
+
+y = np.array([x['perc'] for x in datas])
+mylabels = ([x['fuel'].capitalize() for x in datas])
+
+
+chart = pygal.Bar()
+chart.title ="Carbon Intensity Output For the Region Of Wales: GWP"
+chart.x_labels = mylabels
+chart.add("", y)
+#chart.render_in_browser()
+
+
+
+
