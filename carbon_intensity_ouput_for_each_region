@@ -1,0 +1,23 @@
+import requests
+import pygal
+import numpy as np
+
+
+with requests.Session() as session:
+    r = session.get('https://api.carbonintensity.org.uk/regional/')
+    r.raise_for_status()
+    j = r.json()
+
+#Printing out the carbon intensity for each area.
+for d in j["data"][0]["regions"]:
+    s = (d["intensity"]["forecast"])
+    print(s)
+
+
+#Printing out the names of each area
+for d in j["data"][0]["regions"]:
+    t = (d["shortname"])
+    print(t)
+
+#Printing Out the Total Data
+print(j["data"][0]["regions"])
